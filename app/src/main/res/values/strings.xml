@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BlogReader</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="no_items">No items to display!</string>
+
+    <string-array name="android-names">
+        <name>Android 1.0</name>
+        <name>Honeycomb</name>
+        <name>Ice cream sandwith</name>
+        <name>Jeally bean</name>
+        <name>KitKat</name>
+    </string-array>
+
+    <string name="title_activity_second">SecondActivity</string>
+
+</resources>
