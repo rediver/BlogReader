@@ -27,15 +27,5 @@
         android:text="@string/no_items"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Go to A2"
-        android:id="@+id/button"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="43dp" />
-
 
 </RelativeLayout>

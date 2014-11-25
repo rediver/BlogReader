@@ -7,11 +7,11 @@
     <string name="no_items">No items to display!</string>
 
     <string-array name="android-names">
-        <name>Android 1.0</name>
-        <name>Honeycomb</name>
-        <name>Ice cream sandwith</name>
-        <name>Jeally bean</name>
-        <name>KitKat</name>
+        <item>Android 1.0</item>
+        <item>Honeycomb</item>
+        <item>Ice cream sandwith</item>
+        <item>Jeally bean</item>
+        <item>KitKat</item>
     </string-array>
 
     <string name="title_activity_second">SecondActivity</string>

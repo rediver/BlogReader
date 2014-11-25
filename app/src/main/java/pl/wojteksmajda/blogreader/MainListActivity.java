@@ -7,9 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
-
 import static android.widget.Toast.LENGTH_LONG;
-
 
 public class MainListActivity extends ListActivity {
 
