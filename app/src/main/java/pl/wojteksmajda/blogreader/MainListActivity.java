@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class MainListActivity extends ListActivity {
     public static final int NUM_OF_POSTS = 20;
     public static final String TAG = MainListActivity.class.getSimpleName();
     //duze litery zmiennych trzymaja constant values - KONWENCJA
+    protected JSONObject mBlogData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +72,19 @@ public class MainListActivity extends ListActivity {
         return isAvalible;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_list, menu);
         return true;
+    }
+
+    public  void updateList() throws JSONException {
+        if (mBlogData == null) {
+//            TODO: handle error
+        } else {
+            Log.d(TAG, mBlogData.toString(2));
+        }
     }
 
     @Override
@@ -92,12 +101,13 @@ public class MainListActivity extends ListActivity {
 
 //    asynchroniczny task
 
-      private class GetBlogPostsTask extends AsyncTask<Object, Void, String> {
+      private class GetBlogPostsTask extends AsyncTask<Object, Void, JSONObject> {
 
           @Override
-          protected String doInBackground(Object... objects) {
+          protected JSONObject doInBackground(Object... objects) {
 
              int responseCode = -1;
+             JSONObject jsonResponse = null;
 
              try {
                   URL blogFeedUrl = new URL("http://blog.teamtreehouse.com/api/get_recent_summary/?count=" + NUM_OF_POSTS);
@@ -107,6 +117,7 @@ public class MainListActivity extends ListActivity {
 //                ustanowienie polaczenia
                   responseCode = connection.getResponseCode();
 
+//               jesli uzyskamy polaczenie
                  if (responseCode == HttpURLConnection.HTTP_OK) {
 
                    InputStream inputStream = connection.getInputStream();
@@ -118,20 +129,23 @@ public class MainListActivity extends ListActivity {
                    String responseData;
                    responseData = new String(charArray);
 
+//                 logowanie response data
                    Log.v(TAG, responseData);
 
 //                 utworzenie obiektu JSON
-                   JSONObject jsonResponse = new JSONObject(responseData);
-                   String status = jsonResponse.getString("status");
+                   jsonResponse = new JSONObject(responseData);
+//                   String status = jsonResponse.getString("status");
+//
+//                   Log.v(TAG, status);
 
-                   Log.v(TAG, status);
-
-                   JSONArray jsonPosts = jsonResponse.getJSONArray("posts");
-                   for (int i = 0; i < jsonPosts.length(); i++ ) {
-                       JSONObject jsonPost = jsonPosts.getJSONObject(i);
-                       String title = jsonPost.getString("title");
-                       Log.v(TAG, "Post " + i + ": " + title);
-                   }
+//                 tworzenie array w ktrym zawiera sie tablica postow z ich wlasciwosciami
+//                   JSONArray jsonPosts = jsonResponse.getJSONArray("posts");
+//                 petla wrzucajaa poty do logow
+//                   for (int i = 0; i < jsonPosts.length(); i++ ) {
+//                       JSONObject jsonPost = jsonPosts.getJSONObject(i);
+//                       String title = jsonPost.getString("title");
+//                       Log.v(TAG, "Post " + i + ": " + title);
+//                   }
 
 
 
@@ -151,9 +165,20 @@ public class MainListActivity extends ListActivity {
               catch (Exception e) {
                   Log.e(TAG, "Exeption ..", e);
               }
-              return "Code: " + responseCode;
+              return jsonResponse;
           }
 
+           @Override
+          protected void onPostExecute(JSONObject result) {
+                mBlogData = result;
+               try {
+                   updateList();
+               } catch (JSONException e) {
+                   e.printStackTrace();
+               }
+           }
+
       }
+
 
 }
